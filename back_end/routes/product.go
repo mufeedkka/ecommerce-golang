@@ -1,12 +1,16 @@
 package routes
 
 import (
+	"git.com/ecommerce/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func AdminRoute(router *gin.Engine) {
-	admin := router.Group("/api/admin")
+
+	admin := router.Group("")
 	{
-		admin.GET("/getproducts", controllers.AdminGetAllProducts)
+		admin.POST("/createproduct", controllers.AdminCreateProduct)
+		// admin.POST("/updateproduct/:productid", controllers.AdminUpdateProduct)
+		admin.GET("/", controllers.Ping)
 	}
 }
