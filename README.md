@@ -1,6 +1,6 @@
 # E-Commerce Application
 
-This is an E-Commerce application built using Go (Golang), Next.js, GORM, GIN, and SQLite. The project aims to create a fully functional e-commerce website where users can browse products, add items to their cart, place orders, and more.
+This is an E-Commerce application built using Go (Golang), Next.js, GORM, GIN, and SQLite. The project aims to create a fully functional e-commerce website where users can browse products, add items to their cart, place orders, and more
 
 ## STATUS
 
