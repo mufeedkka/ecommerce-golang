@@ -27,7 +27,7 @@ type ProductStruct struct {
 func AdminCreateProduct(c *gin.Context) {
 
 	var product models.Products
-
+	fmt.Println(&product, "test")
 	if err := c.ShouldBind(&product); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -62,6 +62,113 @@ func AdminCreateProduct(c *gin.Context) {
 		"product": product,
 	})
 
+}
+
+func UpdateProduct(c *gin.Context) {
+	id := c.Param("id")
+
+	var body ProductStruct
+
+	if err := c.ShouldBind(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		c.Abort()
+		return
+	}
+
+	var product models.Products
+
+	result := initializer.DB.Find(&product, "id = ?", id)
+
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "No data found",
+		})
+		c.Abort()
+		return
+	}
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result.Error,
+		})
+		c.Abort()
+		return
+	}
+	product.ShortName = body.ShortName
+	product.LongName = body.LongName
+
+	initializer.DB.Save(&product)
+
+	c.JSON(http.StatusOK, gin.H{
+		"update":  true,
+		"product": product,
+	})
+}
+
+func GetAllProducts(c *gin.Context) {
+	var product []models.Products
+
+	result := initializer.DB.Find(&product)
+
+	if result.Error != nil {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": result.Error,
+		})
+	}
+
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "No data found",
+		})
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success":  true,
+		"products": product,
+	})
+}
+
+func DeletProduct(c *gin.Context) {
+	id := c.Param("id")
+	var product []models.Products
+
+	initializer.DB.Delete(&product, id)
+
+	c.JSON(http.StatusOK, gin.H{
+		"delete": true,
+		// "Product": product,
+	})
+}
+
+func GetProductByID(c *gin.Context) {
+	id := c.Param("id")
+
+	var product models.Products
+
+	result := initializer.DB.Find(&product, "id = ?", id)
+
+	if result.Error != nil {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": result.Error,
+		})
+		c.Abort()
+		return
+	}
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "No data found",
+		})
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"Product": product,
+	})
 }
 
 func Ping(c *gin.Context) {

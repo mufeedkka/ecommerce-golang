@@ -1,8 +1,16 @@
 import React from 'react'
+import Link from "next/link";
+
 
 const Products = () => {
   return (
     <div>
+
+<Link href="/product_form">
+  <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+    Create Product
+  </button>
+</Link>
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="max-w-sm rounded overflow-hidden shadow-md bg-white">
       {/* <img src="product-image.jpg" alt="Product Image" class="w-full h-40 object-cover"/> */}

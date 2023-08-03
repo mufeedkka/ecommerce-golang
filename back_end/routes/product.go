@@ -10,7 +10,10 @@ func AdminRoute(router *gin.Engine) {
 	admin := router.Group("")
 	{
 		admin.POST("/createproduct", controllers.AdminCreateProduct)
-		// admin.POST("/updateproduct/:productid", controllers.AdminUpdateProduct)
+		admin.GET("/allproducts", controllers.GetAllProducts)
+		admin.PATCH("/updateproduct/:id", controllers.UpdateProduct)
+		admin.DELETE("/deleteproduct/:id", controllers.DeletProduct)
+		admin.GET("/product/:id", controllers.GetProductByID)
 		admin.GET("/", controllers.Ping)
 	}
 }
